@@ -51,11 +51,7 @@ GuessNumber.prototype = {
 	//计算数字大小，修改相应值
 	changeFields: function(maxNumber, minNumber){
 		if(this._complete && maxNumber <= minNumber) {
-			this._complete = true;
-			if(maxNumber === minNumber){
-				this._success = true;
-				this._result = maxNumber;
-			}
+			this.complete();
 			return;
 		}
 		if(this._maxNumber !== maxNumber) {
@@ -68,6 +64,29 @@ GuessNumber.prototype = {
 
 		this._nowNumber = Math.round((this._maxNumber + this._minNumber) / 2);
 		this._times ++;
+	},
+
+	//提前完成猜数
+	complete: function() {
+		this._complete = true;
+		if (this._maxNumber === this._minNumber) {
+			this._success = true;
+			this._result = this._maxNumber;
+		} else if (this._maxNumber < this._minNumber) {
+			this._success = false;
+			this._result = "Sorry! I failed.";
+		} else {
+			this._success = true;
+			this._result = this._nowNumber;
+		}
+	},
+
+	//获取结果
+	getResult: function() {
+		if(!this._success) {
+			return "Sorrry! I failed."
+		}
+		return this._result;
 	},
 
 	//显示结果，因为闭包问题。这个方法不能使用
