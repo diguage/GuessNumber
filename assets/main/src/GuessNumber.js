@@ -121,6 +121,11 @@ define(function(require, exports, module){
 			}
 			return this._result;
 		},
+
+		// 获取猜测的数
+		getGuess: function() {
+			return this._nowNumber;
+		},
 	
 		//显示结果，因为闭包问题。这个方法不能使用
 	//	join: function(textId, maxButtonId, minButtonId){
