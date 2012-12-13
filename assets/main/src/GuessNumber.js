@@ -33,6 +33,7 @@ define(function(require, exports, module){
 		//根据数字长度，设定数字访问
 		setNumberScopeWithNumberLength: function(numLength){
 			this.setNumberScope(Math.pow(10, numLength));
+			this.start(this._minNumber, this._maxNumber);
 		},
 
 		// 设置最小的数
@@ -40,7 +41,7 @@ define(function(require, exports, module){
 			this._minNumber = minNumber;
 		},
 	
-		//开始游戏，初始化一些必要的数据。
+		//开始游戏，初始化一些必要的数据。主要是为方便重新设定最小值。所以将最小值作为第一个参数
 		start: function(minNumber, maxNumber) {
 			var inMinNum = this._minNumber;
 			var inMaxNum = this._numberScope;
