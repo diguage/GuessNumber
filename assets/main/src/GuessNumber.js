@@ -12,10 +12,8 @@ define(function(require, exports, module){
 		this._complete = false; // 猜测是否完成
 		this._success = false; // 猜测是否成功。
 	
-		this._numberScope = numberScope;
+		this.setNumberScope(numberScope);
 
-		this.start();
-		
 	}
 	
 	GuessNumber.prototype = {
@@ -28,17 +26,17 @@ define(function(require, exports, module){
 				return;
 			}
 			this._numberScope = numberScope;
+			this.start(this._minNumber, numberScope);
 		},
 	
 		//根据数字长度，设定数字访问
 		setNumberScopeWithNumberLength: function(numLength){
 			this.setNumberScope(Math.pow(10, numLength));
-			this.start(this._minNumber, this._maxNumber);
 		},
 
 		// 设置最小的数
 		setMinNumber: function(minNumber) {
-			this._minNumber = minNumber;
+			this.start(minNumber);
 		},
 	
 		//开始游戏，初始化一些必要的数据。主要是为方便重新设定最小值。所以将最小值作为第一个参数
@@ -96,7 +94,7 @@ define(function(require, exports, module){
 				this._minNumber = minNumber;
 			}
 	
-			this._nowNumber = Math.round((this._maxNumber + this._minNumber) / 2);
+			this._nowNumber = Math.round((this._maxNumber - this._minNumber) / 2);
 			this._times ++;
 		},
 	
