@@ -4,7 +4,7 @@ define(function(require, exports, module){
 	*/
 	function GuessNumber(numberScope){
 		this._maxNumber = -1; // 猜测过程中，可能最大的数
-		this._minNumber = -1; // 猜测过程中，可能最小的数
+		this._minNumber = 0; // 猜测过程中，可能最小的数
 		this._nowNumber = -1; // 目前猜测出来的数
 		this._count = 0;  // 需要猜测的次数
 		this._times = 0;  // 猜测的次数
@@ -13,6 +13,8 @@ define(function(require, exports, module){
 		this._success = false; // 猜测是否成功。
 	
 		this._numberScope = numberScope;
+
+		this.start();
 		
 	}
 	
@@ -32,11 +34,41 @@ define(function(require, exports, module){
 		setNumberScopeWithNumberLength: function(numLength){
 			this.setNumberScope(Math.pow(10, numLength));
 		},
+
+		// 设置最小的数
+		setMinNumber: function(minNumber) {
+			this._minNumber = minNumber;
+		},
 	
 		//开始游戏，初始化一些必要的数据。
-		start: function(){
-			this.changeFields(this._numberScope, 0);
-			this._count = Math.ceil(Math.sqrt(this._numberScope)) + 1;
+		start: function(minNumber, maxNumber) {
+			var inMinNum = this._minNumber;
+			var inMaxNum = this._numberScope;
+
+			if (minNumber) {
+				inMinNum = minNumber;
+			}
+
+			if (maxNumber) {
+				inMaxNum = maxNumber;
+			}
+
+			this._times = 0;
+			this.changeFields(inMaxNum, inMinNum);
+			this.setCount();
+		},
+
+		// 计算所需猜测的次数
+		setCount: function() {
+			this._count = Math.ceil(Math.log(this._maxNumber - this._minNumber) / Math.log(2)) + 1;
+		},
+
+		// 获取总的猜测次数
+		getCount: function() {
+			if (this._count === 0) {
+				this.setCount();
+			}
+			return this._count;
 		},
 	
 		//猜测的数字太小，调大数字
