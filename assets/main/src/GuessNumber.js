@@ -94,7 +94,7 @@ define(function(require, exports, module){
 				this._minNumber = minNumber;
 			}
 	
-			this._nowNumber = Math.round((this._maxNumber - this._minNumber) / 2);
+			this._nowNumber = Math.round((this._maxNumber + this._minNumber) / 2);
 			this._times ++;
 		},
 	
