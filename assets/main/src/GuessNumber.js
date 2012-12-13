@@ -50,6 +50,7 @@ define(function(require, exports, module){
 
 			if (maxNumber) {
 				inMaxNum = maxNumber;
+				this._numberScope = maxNumber;
 			}
 
 			this._times = 0;
