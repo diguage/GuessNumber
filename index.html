@@ -26,9 +26,19 @@
     </head>
     <body>
         <div id="guessNumber">
-            开始猜：<br /><br />
-            <input name="" type="text" value="20000" size="20" maxlength="50" readonly="true" id="showNumber"><br /><br />
-            <input name="tooMax" type="button" value="太大" id="maxButton"><input name="tooMin" type="button" value="太小" id="minButton">
+			开始猜：<br /><br />
+
+			选择一个类型：
+			<select id="guessType">
+				<option value ="0">小试牛刀-猜一百以内的正整数</option>
+				<option value ="1">猜猜你的生日</option>
+				<option value="2">信不信，我能猜出你的手机号</option>
+			</select> <br />
+			<div style="font-size:100%;">
+				<input name="" type="text" value="20000" size="24" maxlength="50" readonly="true" id="showNumber"  style="font-size:150%;"><br /><br />
+				　　<input name="tooMax" type="button" value="太大" id="maxButton" style="font-size:140%;">　　
+				<input name="tooMin" type="button" value="太小" id="minButton" style="font-size:140%;">
+			</div>
         </div>
     </body>
 </html>
