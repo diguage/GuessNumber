@@ -43,8 +43,12 @@ define(function(require, exports, module){
 		start: function(minNumber, maxNumber) {
 			var inMinNum = this._minNumber;
 			var inMaxNum = this._numberScope;
+			this._minNumber = -1;
+			this._maxNumber = 1;
 
-			if (minNumber) {
+			// 当minNumber为0时，需要特殊处理一下。
+			var minNumberStr = minNumber + ""; 
+			if (minNumberStr != "") {
 				inMinNum = minNumber;
 			}
 
