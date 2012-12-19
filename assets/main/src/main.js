@@ -21,8 +21,24 @@ define(function(require) {
 			return result;
 		}
 	}
+	
+	function showResult() {
+		if(guess._complete){
+			// 为了简化处理结果，把结果展示暂时写到这里。
+			if(guess._success) {
+				alert("您猜测的结果是：" + formatResult(guess.getGuess(), type));
+			} else {
+				alert("猜测失败。要不，咱试试其他的？");
+			}
+			
+			return;
+		}
+		document.getElementById("showNumber").value = formatResult(guess.getGuess(), type);
+		document.getElementById("showTimes").innerHTML = guess.getTimes();
+		document.getElementById("showCount").innerHTML = guess.getCount();
+	}
 
-	var guess = new GuessNumber(201212);
+	var guess = new GuessNumber(100);
 
 	// 定义个猜数范围数组
 	var scopeArr = [{min: 0, max: 100, tip: ""}, // 小试牛刀
@@ -36,24 +52,26 @@ define(function(require) {
 	var type = 0; //1 代表日期；其余代表数字
 
 	guess.start(scopeArr[type].min, scopeArr[type].max);
-	document.getElementById("showNumber").value = formatResult(guess.getGuess(), type);
+	showResult();
 
 	$("#guessType").change(function(){
 		type = $(this).val();
 		guess.start(scopeArr[type].min, scopeArr[type].max);
-		document.getElementById("showNumber").value = formatResult(guess.getGuess(), type);
+		showResult();
 	});
-	
-	document.getElementById("showNumber").value = formatResult(guess.getGuess(), type);
 	//alert("Scope："+guess._numberScope+"，Max："+guess._maxNumber+"，Min："+guess._minNumber+"，Now："+guess._nowNumber+"，Count："+guess._count);
 	$("#maxButton").click(function(){
 		guess.toSmaller();
-		document.getElementById("showNumber").value = formatResult(guess.getGuess(), type);
+		showResult();
 	});
 
 	$("#minButton").click(function(){
 		guess.toLarger();
-		document.getElementById("showNumber").value = formatResult(guess.getGuess(), type);
+		showResult();
 	});
-
-})
+	
+	$("#initButton").click(function(){
+		guess.start(scopeArr[type].min, scopeArr[type].max);
+		showResult();
+	});
+});
