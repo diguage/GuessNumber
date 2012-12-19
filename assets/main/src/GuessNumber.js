@@ -3,8 +3,8 @@ define(function(require, exports, module){
 	* numberScope 需要猜测的数字范围
 	*/
 	function GuessNumber(numberScope){
-		this._maxNumber = -1; // 猜测过程中，可能最大的数
-		this._minNumber = 0; // 猜测过程中，可能最小的数
+		this._maxNumber = -1; // 猜测范围中，最大的数
+		this._minNumber = 0; // 猜测范围中，最小的数
 		this._nowNumber = -1; // 目前猜测出来的数
 		this._count = 0;  // 需要猜测的次数
 		this._times = 0;  // 猜测的次数
@@ -12,7 +12,7 @@ define(function(require, exports, module){
 		this._complete = false; // 猜测是否完成
 		this._success = false; // 猜测是否成功。
 	
-		this.setNumberScope(numberScope);
+		this.setNumberScope(numberScope); //设置猜数范围，这里默认从0开始.
 
 	}
 	
@@ -56,8 +56,11 @@ define(function(require, exports, module){
 				inMaxNum = maxNumber;
 				this._numberScope = maxNumber;
 			}
-
+			
+			this._complete = false;
+			this._success = false;
 			this._times = 0;
+			
 			this.changeFields(inMaxNum, inMinNum);
 			this.setCount();
 		},
@@ -87,8 +90,11 @@ define(function(require, exports, module){
 	
 		//计算数字大小，修改相应值
 		changeFields: function(maxNumber, minNumber){
-			if(this._complete && maxNumber <= minNumber) {
-				this.complete();
+
+			if(maxNumber <= minNumber || maxNumber == this._minNumber + 1) {
+				if(!this._complete) {
+					this.complete();
+				}				
 				return;
 			}
 			if(this._maxNumber !== maxNumber) {
@@ -114,21 +120,35 @@ define(function(require, exports, module){
 				this._result = "Sorry! I failed.";
 			} else {
 				this._success = true;
-				this._result = this._nowNumber;
+				this._result = this._nowNumber = Math.round((this._maxNumber + this._minNumber) / 2);
+				if (this._nowNumber == this._minNumber + 1) {
+					this._nowNumber = this._minNumber;
+				}
 			}
 		},
 	
 		//获取结果
 		getResult: function() {
 			if(!this._success) {
-				return "Sorrry! I failed."
+				return "Sorrry! I failed.";
 			}
 			return this._result;
 		},
 
 		// 获取猜测的数
 		getGuess: function() {
+			if(this._nowNumber == this._minNumber) {
+				return Math.round((this._maxNumber + this._minNumber) / 2);
+			}
 			return this._nowNumber;
+		},
+		
+		//获取猜测次数
+		getTimes: function() {
+			if(this._times === 0) {
+				this.start();
+			}
+			return this._times;
 		},
 	
 		//显示结果，因为闭包问题。这个方法不能使用
